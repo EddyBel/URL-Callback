@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CallBack</title>
+
+    <!-- Prism.js CDN for syntax highlighting -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script type="module">
+      function getQueryParams(url) {
+        const queryString = url.split("?")[1];
+        if (!queryString) {
+          return null;
+        }
+
+        const queryParams = queryString.split("&").reduce((acc, param) => {
+          const [key, value] = param.split("=");
+          acc[decodeURIComponent(key)] = decodeURIComponent(value);
+          return acc;
+        }, {});
+
+        return Object.keys(queryParams).length ? queryParams : null;
+      }
+
+      function updateQueryParamsDisplay() {
+        const params = getQueryParams(window.location.href);
+        const preElement = document.getElementById("values");
+        if (params) {
+          preElement.innerHTML = Prism.highlight(
+            JSON.stringify(params, null, 2),
+            Prism.languages.json,
+            "json"
+          );
+        } else {
+          preElement.textContent = "No query parameters found.";
+        }
+      }
+
+      // Check for URL changes every 500 milliseconds
+      setInterval(updateQueryParamsDisplay, 500);
+
+      // Initial update
+      updateQueryParamsDisplay();
+    </script>
+  </head>
+
+  <body
+    class="min-h-screen text-gray-800"
+  >
+    <div class="p-5">
+      <h1 class="text-xl">Values from URL:</h1>
+      <pre id="values" class="language-json rounded-xl">
+        <!-- Values will be displayed here -->
+    </pre>
+    </div>
+  </body>
+</html>
