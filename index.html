@@ -27,7 +27,7 @@
           return acc;
         }, {});
 
-        return Object.keys(queryParams).length ? queryParams : null;
+        return Object.keys(queryParams).length ? queryParams : {};
       }
 
       function updateQueryParamsDisplay() {
@@ -52,9 +52,7 @@
     </script>
   </head>
 
-  <body
-    class="min-h-screen text-gray-800"
-  >
+  <body class="min-h-screen text-gray-800">
     <div class="p-5">
       <h1 class="text-xl">Values from URL:</h1>
       <pre id="values" class="language-json rounded-xl">
